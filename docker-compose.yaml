@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "8082:80"    # Maps host port 80 to container port 80
+      - "8083:443"  # Maps host port 443 to container port 443 (for SSL)
+    volumes:
+      - ./nginx:/etc/nginx           # Maps the entire 'nginx' directory to the container's Nginx directory
+      - ./html:/usr/share/nginx/html # Maps the 'html' directory to the container's root html directory
+      - ./logs:/var/log/nginx        # Maps the 'logs' directory to the container's log directory
+    networks:
+      - nginx_network
+    restart: unless-stopped
+
+networks:
+  nginx_network:
+    driver: bridge
